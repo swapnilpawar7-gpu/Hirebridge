@@ -1,0 +1,8 @@
+Step 1 : 
+Run this command to build the css:
+npx tailwindcss -i ./src/main/resources/static/css/input.css -o ./src/main/resources/static/css/output.css --watch
+
+Step 2 :
+Run the main file : 
+
+mvnw.cmd spring-boot:run

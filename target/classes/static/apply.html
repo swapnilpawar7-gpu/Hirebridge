@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="pageTitleTag">Apply - HireBridge</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Shared stylesheet (includes apply.html styles appended at the bottom) -->
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- ── NAVBAR (identical to index.html) ── -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+
+      <a href="/" class="nav-logo" aria-label="HireBridge home">
+        <div class="nav-logo-icon" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20 7H4a2 2 0 00-2 2v9a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
+            <line x1="12" y1="12" x2="12" y2="16"/>
+            <line x1="10" y1="14" x2="14" y2="14"/>
+          </svg>
+        </div>
+        <span class="nav-logo-text">Hire<span>Bridge</span></span>
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/postJob">Post a Job</a></li>
+        <li><a href="/#about">About</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="/postJob" class="btn-post" aria-label="Post a new job">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5"  y1="12" x2="19" y2="12"/>
+          </svg>
+          Post a Job
+        </a>
+        <button class="btn-icon" id="themeToggle" aria-label="Toggle dark mode">
+          <svg id="themeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"></svg>
+        </button>
+        <button class="btn-icon hamburger" id="hamburger" aria-label="Open mobile menu" aria-expanded="false">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <line x1="3" y1="6"  x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+    <div class="mobile-menu" id="mobileMenu" role="menu">
+      <a href="/"        role="menuitem">Home</a>
+      <a href="/postJob" role="menuitem">Post a Job</a>
+      <a href="/#about"  role="menuitem">About</a>
+    </div>
+  </nav>
+
+  <!-- ── APPLICATION FORM PAGE ── -->
+  <div class="apply-page">
+    <div class="apply-inner">
+
+      <!-- Page heading -->
+      <div class="apply-heading">
+        <h1>Job Application</h1>
+        <span class="apply-role" id="applyRoleLabel" aria-live="polite">
+          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true">
+            <rect x="2" y="7" width="20" height="14" rx="2"/>
+            <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
+          </svg>
+          Applying for: -
+        </span>
+      </div>
+
+      <!-- Success banner (shown on valid submit) -->
+      <div class="success-banner" id="successBanner" role="status" aria-live="polite">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Application submitted successfully! Redirecting…
+      </div>
+
+      <!-- Form card -->
+      <div class="form-card">
+        <form id="applyForm" novalidate autocomplete="off">
+
+          <!-- ── PERSONAL DETAILS ── -->
+          <p class="form-section-title">Personal Details</p>
+
+          <div class="field-row">
+            <!-- First Name -->
+            <div class="field-group">
+              <label class="field-label" for="firstName">
+                First Name <span class="required-star" aria-hidden="true">*</span>
+              </label>
+              <div class="input-wrap">
+                <input
+                  type="text"
+                  id="firstName"
+                  class="field-input"
+                  placeholder="e.g. Arjun"
+                  autocomplete="off"
+                  aria-required="true"
+                  aria-describedby="firstNameError"
+                />
+              </div>
+              <span class="field-error" id="firstNameError" role="alert"></span>
+            </div>
+
+            <!-- Last Name -->
+            <div class="field-group">
+              <label class="field-label" for="lastName">
+                Last Name <span class="required-star" aria-hidden="true">*</span>
+              </label>
+              <div class="input-wrap">
+                <input
+                  type="text"
+                  id="lastName"
+                  class="field-input"
+                  placeholder="e.g. Sharma"
+                  autocomplete="off"
+                  aria-required="true"
+                  aria-describedby="lastNameError"
+                />
+              </div>
+              <span class="field-error" id="lastNameError" role="alert"></span>
+            </div>
+          </div>
+
+          <!-- Contact Number -->
+          <div class="field-group">
+            <label class="field-label" for="contact">
+              Contact Number <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap">
+              <input
+                type="tel"
+                id="contact"
+                class="field-input"
+                placeholder="10-digit mobile number"
+                maxlength="10"
+                autocomplete="off"
+                aria-required="true"
+                aria-describedby="contactError"
+              />
+            </div>
+            <span class="field-error" id="contactError" role="alert"></span>
+          </div>
+
+          <!-- Email Address -->
+          <div class="field-group">
+            <label class="field-label" for="email">
+              Email Address <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap">
+              <input
+                type="email"
+                id="email"
+                class="field-input"
+                placeholder="you@example.com"
+                autocomplete="off"
+                aria-required="true"
+                aria-describedby="emailError"
+              />
+            </div>
+            <span class="field-error" id="emailError" role="alert"></span>
+          </div>
+
+          <!-- ── EDUCATION ── -->
+          <p class="form-section-title">Education</p>
+
+          <!-- Education Dropdown -->
+          <div class="field-group">
+            <label class="field-label" for="education">
+              Highest Education <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap select-wrap">
+              <select
+                id="education"
+                class="field-select"
+                aria-required="true"
+                aria-describedby="educationError"
+              >
+                <option value="select">Select Education</option>
+                <option value="highschool">High School</option>
+                <option value="diploma">Diploma</option>
+                <option value="bachelors">Bachelor's Degree</option>
+                <option value="masters">Master's Degree</option>
+                <option value="mba">MBA</option>
+                <option value="phd">PhD</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <span class="field-error" id="educationError" role="alert"></span>
+          </div>
+
+          <!-- Major / Field of Study -->
+          <div class="field-group">
+            <label class="field-label" for="major">
+              Major / Field of Study <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap">
+              <input
+                type="text"
+                id="major"
+                class="field-input"
+                placeholder="e.g. Computer Science"
+                autocomplete="off"
+                aria-required="true"
+                aria-describedby="majorError"
+              />
+            </div>
+            <span class="field-error" id="majorError" role="alert"></span>
+          </div>
+
+          <!-- ── COMPENSATION ── -->
+          <p class="form-section-title">Compensation</p>
+
+          <div class="field-row">
+            <!-- Current CTC -->
+            <div class="field-group">
+              <label class="field-label" for="currentCtc">
+                Current CTC (in LPA) <span class="required-star" aria-hidden="true">*</span>
+              </label>
+              <div class="input-wrap">
+                <input
+                  type="number"
+                  id="currentCtc"
+                  class="field-input"
+                  placeholder="e.g. 6"
+                  min="0"
+                  step="0.1"
+                  autocomplete="off"
+                  aria-required="true"
+                  aria-describedby="currentCtcError"
+                />
+              </div>
+              <span class="field-error" id="currentCtcError" role="alert"></span>
+            </div>
+
+            <!-- Expected CTC -->
+            <div class="field-group">
+              <label class="field-label" for="expectedCtc">
+                Expected CTC (in LPA) <span class="required-star" aria-hidden="true">*</span>
+              </label>
+              <div class="input-wrap">
+                <input
+                  type="number"
+                  id="expectedCtc"
+                  class="field-input"
+                  placeholder="e.g. 10"
+                  min="0"
+                  step="0.1"
+                  autocomplete="off"
+                  aria-required="true"
+                  aria-describedby="expectedCtcError"
+                />
+              </div>
+              <span class="field-error" id="expectedCtcError" role="alert"></span>
+            </div>
+          </div>
+
+          <!-- ── RESUME ── -->
+          <p class="form-section-title">Resume</p>
+
+          <div class="field-group">
+            <label class="field-label" for="resume">
+              Upload Resume <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <label class="file-upload-label" id="fileLabel" tabindex="0" role="button" aria-describedby="resumeError">
+              <input
+                type="file"
+                id="resume"
+                accept=".pdf,.doc,.docx"
+                aria-required="true"
+                tabindex="-1"
+              />
+              <svg class="file-upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+              <span class="file-upload-text" id="fileText">Choose file…</span>
+              <span class="file-upload-btn-text" aria-hidden="true">Browse</span>
+            </label>
+            <span class="field-error" id="resumeError" role="alert"></span>
+          </div>
+
+          <!-- ── ACTIONS ── -->
+          <div class="form-actions">
+            <button type="submit" class="btn-submit" id="submitBtn">
+              <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Submit Application
+            </button>
+            <button type="button" class="btn-back" id="backBtn">
+              <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+              </svg>
+              Back
+            </button>
+          </div>
+
+        </form>
+      </div><!-- /form-card -->
+
+    </div><!-- /apply-inner -->
+  </div><!-- /apply-page -->
+
+  <footer id="about">
+    <p>© 2026 <strong>HireBridge</strong> - Built with Spring + MongoDB</p>
+  </footer>
+
+  <script src="/apply.js" defer></script>
+</body>
+</html>
