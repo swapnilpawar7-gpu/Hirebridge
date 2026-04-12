@@ -1,7 +1,0 @@
-com\hirebridge\joblisting\controller\PageController.class
-com\hirebridge\joblisting\JoblistingApplication.class
-com\hirebridge\joblisting\repository\SearchRepository.class
-com\hirebridge\joblisting\model\Post.class
-com\hirebridge\joblisting\controller\PostController.class
-com\hirebridge\joblisting\repository\SearchRepositoryImpl.class
-com\hirebridge\joblisting\repository\PostRepository.class
