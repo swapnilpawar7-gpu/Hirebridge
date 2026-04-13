@@ -158,7 +158,7 @@ function createCard(job) {
 }
 
 function applyNow(profile) {
-  window.location.href = '/apply?title=' + encodeURIComponent(profile);
+  window.location.href = '/apply.html?title=' + encodeURIComponent(profile);
 }
 
 // ── ERROR STATE ────────────────────────────────────────
@@ -177,7 +177,7 @@ function showError() {
       <button class="retry-btn" onclick="fetchJobs()">Retry</button>
     </div>`;
   countBadge.textContent = 'Error';
-  statJobs.textContent   = '—';
+  statJobs.textContent   = '-';
 }
 
 // ── UTILITY ────────────────────────────────────────────
@@ -257,7 +257,7 @@ function closeModal() {
   resetPostForm();
 }
 
-// Wire all open triggers — gate behind login
+// Wire all open triggers - gate behind login
 function handlePostJobClick(e, closeMobileMenu) {
   e.preventDefault();
   if (closeMobileMenu) mobileMenu.classList.remove('open');
@@ -397,7 +397,7 @@ postJobForm.addEventListener('submit', async e => {
   e.preventDefault();
   modalApiError.style.display = 'none';
 
-  // Validate all fields — run all so every error shows at once
+  // Validate all fields - run all so every error shows at once
   const ids    = Object.keys(MODAL_RULES);
   const valid  = ids.map(id => validateModalField(id)).every(Boolean);
 
@@ -445,9 +445,9 @@ postJobForm.addEventListener('submit', async e => {
 
 
 // ══════════════════════════════════════════════════════
-//  AUTH — LOGIN / LOGOUT
+//  AUTH - LOGIN / LOGOUT
 //  Credentials are checked client-side only.
-//  Username: admin   |   Password: hirebridge123
+//  Username: swap   |   Password: swap@369
 // ══════════════════════════════════════════════════════
 
 const ADMIN_USER = 'swap';

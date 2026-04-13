@@ -1,5 +1,5 @@
 /* =====================================================
-   HireBridge — apply.js
+   HireBridge - apply.js
    Handles: theme, mobile menu, URL params,
             inline validation, file upload, submit
    ===================================================== */
@@ -39,7 +39,7 @@ const jobTitle = params.get('title') ? decodeURIComponent(params.get('title')) :
 
 document.getElementById('applyRoleLabel').textContent = 'Applying for: ' + jobTitle;
 // FIX: the <title> element id is "pageTitleTag", not "pageTitleJob"
-document.getElementById('pageTitleTag').textContent = 'Apply: ' + jobTitle + ' — HireBridge';
+document.getElementById('pageTitleTag').textContent = 'Apply: ' + jobTitle + ' - HireBridge';
 
 // ── VALIDATION RULES ────────────────────────────────────
 const RULES = {
@@ -197,7 +197,7 @@ const successBanner = document.getElementById('successBanner');
 form.addEventListener('submit', e => {
   e.preventDefault();
 
-  // Validate all text/select fields — run ALL even if one fails so all errors show
+  // Validate all text/select fields - run ALL even if one fails so all errors show
   const fieldIds = ['firstName', 'lastName', 'contact', 'email', 'education', 'major', 'currentCtc', 'expectedCtc'];
   const results  = fieldIds.map(id => validateField(id));
   let allValid   = results.every(Boolean);
