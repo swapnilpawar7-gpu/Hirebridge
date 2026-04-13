@@ -12,8 +12,6 @@ A full-stack job listing and application portal built with **Spring**, **MongoDB
 - [Getting Started](#getting-started)
 - [API Endpoints](#api-endpoints)
 - [Frontend Pages](#frontend-pages)
-- [Design System](#design-system)
-- [Screenshots](#screenshots)
 - [Future Improvements](#future-improvements)
 
 ---
@@ -47,12 +45,10 @@ A full-stack job listing and application portal built with **Spring**, **MongoDB
 ### Backend
 | Layer | Technology |
 |---|---|
-| Framework | Spring Boot 2.5.7 |
+| Framework | Spring framework |
 | Language | Java 11 |
 | Database | MongoDB |
 | ODM | Spring Data MongoDB |
-| Template Engine | Thymeleaf |
-| API Docs | Springfox Swagger 2.9.2 |
 | Build Tool | Maven |
 
 ### Frontend
@@ -62,9 +58,25 @@ A full-stack job listing and application portal built with **Spring**, **MongoDB
 | Styling | CSS3 with custom design tokens + Tailwind CSS |
 | Scripting | Vanilla JavaScript (ES2020, no frameworks) |
 | Fonts | DM Sans + DM Mono via Google Fonts |
-| API Calls | `fetch()` against the same Spring Boot origin |
+| API Calls | `fetch()` against the same Spring origin |
 
 ---
+
+## 📸 Screenshots
+
+| Page | Preview |
+|---|---|
+| 🏠 Home Page | <img src="images/Home_page_white.png" width="600"/> |
+| 🏠 Home Page (Dark Mode) | <img src="images/Home_Page_Dark.png" width="600"/> |
+| 🔍 Job Listings  | <img src="images/jobs_1.png" width="600"/> |
+| 🔍 Job Listings  | <img src="images/jobs_2.png" width="600"/> |
+| Application Form | <img src="images/form.png" width="600"/> |
+| Application Form | <img src="images/form_2.png" width="600"/> |
+| 🔐 Admin Login | <img src="images/Admin_login.png" width="600"/> |
+| 🔐 Admin Logged in | <img src="images/admin_login_2.png" width="600"/> |
+| ➕ Post Job Modal | <img src="images/Job_post.png" width="600"/> |
+| Mobile View | <div align="center"> <img src="images/Mobile_view.png" width="400"/>  </div> |
+
 
 ## Project Structure
 
@@ -225,38 +237,6 @@ A static page served from `static/`. Reads the `title` query parameter on load a
 | Major | Letters and spaces only |
 | Current / Expected CTC | Valid non-negative number |
 | Resume | `.pdf`, `.doc`, or `.docx` only |
-
----
-
-## Design System
-
-All design tokens are defined as CSS custom properties in `style.css` and automatically switch between light and dark themes via `[data-theme="dark"]`.
-
-| Token | Light | Dark |
-|---|---|---|
-| `--indigo` (primary) | `#4f46e5` | `#4f46e5` |
-| `--bg` | `#f8fafc` | `#0f172a` |
-| `--surface` | `#ffffff` | `#1e293b` |
-| `--border` | `#e2e8f0` | `#334155` |
-| `--text-primary` | `#0f172a` | `#f1f5f9` |
-| `--text-secondary` | `#475569` | `#94a3b8` |
-
-**Typography:** DM Sans (display + body) · DM Mono (code tags)  
-**Border radius:** Cards `16px` · Buttons `10px` · Badges `9999px`  
-**Transitions:** `all 0.25s cubic-bezier(0.16, 1, 0.3, 1)`
-
----
-
-## Screenshots
-
-> Add screenshots of your running application here.
-
-| Page | Preview |
-|---|---|
-| Job Listings (Light) | *(add screenshot)* |
-| Job Listings (Dark) | *(add screenshot)* |
-| Application Form | *(add screenshot)* |
-| Mobile View | *(add screenshot)* |
 
 ---
 
