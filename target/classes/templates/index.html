@@ -15,7 +15,7 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
+  <!-- ── NAVBAR ── -->
   <nav class="nav" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
 
@@ -33,18 +33,24 @@
 
       <ul class="nav-links" role="list">
         <li><a href="/" class="active">Home</a></li>
-
+        <li><a href="#" id="navPostLink">Post a Job</a></li>
         <li><a href="#about">About</a></li>
       </ul>
 
       <div class="nav-actions">
-        <!-- <a href="/postJob" class="btn-post" aria-label="Post a new job">
+        <button class="btn-post" id="navPostBtn" aria-label="Post a new job" aria-haspopup="dialog">
           <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true">
             <line x1="12" y1="5" x2="12" y2="19"/>
             <line x1="5" y1="12" x2="19" y2="12"/>
           </svg>
           Post a Job
-        </a> -->
+        </button>
+        <!-- Shown only when logged in -->
+        <div class="nav-admin-badge" id="adminBadge" style="display:none;" aria-label="Logged in as admin">
+          <span class="admin-dot" aria-hidden="true"></span>
+          <span class="admin-name">Admin</span>
+          <button class="admin-logout" id="logoutBtn" aria-label="Logout">Logout</button>
+        </div>
         <button class="btn-icon" id="themeToggle" aria-label="Toggle dark mode">
           <svg id="themeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"></svg>
         </button>
@@ -59,13 +65,13 @@
 
     </div>
     <div class="mobile-menu" id="mobileMenu" role="menu">
-      <a href="/"        role="menuitem">Home</a>
-      <a href="/postJob" role="menuitem">Post a Job</a>
-      <a href="#about"   role="menuitem">About</a>
+      <a href="/"     role="menuitem">Home</a>
+      <a href="#"     role="menuitem" id="mobilePostLink">Post a Job</a>
+      <a href="#about" role="menuitem">About</a>
     </div>
   </nav>
 
-  <!-- HERO -->
+  <!-- ── HERO ── -->
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-eyebrow" aria-label="Job portal">
@@ -95,7 +101,7 @@
 
       <div class="hero-stats" aria-label="Portal statistics">
         <div class="hero-stat">
-          <div class="hero-stat-num" id="statJobs">--</div>
+          <div class="hero-stat-num" id="statJobs">—</div>
           <div class="hero-stat-label">Open Positions</div>
         </div>
         <div class="hero-stat">
@@ -110,7 +116,7 @@
     </div>
   </section>
 
-  <!-- MAIN -->
+  <!-- ── MAIN ── -->
   <main class="main">
     <div class="section-header">
       <div class="section-title-group">
@@ -128,7 +134,6 @@
       </div>
     </div>
 
-    <!-- Grid populated by script.js; skeletons shown while fetching -->
     <div class="jobs-grid" id="jobsGrid" aria-label="Job listings" aria-live="polite">
       <div class="skeleton-card" aria-hidden="true">
         <div class="skeleton-top">
@@ -177,10 +182,252 @@
     </div>
   </main>
 
-  <!-- FOOTER -->
+  <!-- ── FOOTER ── -->
   <footer id="about">
-    <p>© 2025 <strong>HireBridge</strong> - Built with Spring + MongoDB · <a href="/postJob">Post a Job</a></p>
+    <p>© 2026 <strong>HireBridge</strong> — Built with Spring Boot + MongoDB</p>
   </footer>
+
+  <!-- ── LOGIN MODAL ── -->
+  <div class="modal-backdrop" id="loginBackdrop" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+    <div class="modal-card login-modal-card" id="loginModalCard">
+
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title" id="loginModalTitle">Admin Login</h2>
+          <p class="modal-sub">Enter your credentials to post job openings</p>
+        </div>
+        <button class="modal-close btn-icon" id="loginModalClose" aria-label="Close login modal">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6"  y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Login error banner -->
+      <div class="login-error" id="loginError" role="alert" style="display:none;">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        Incorrect username or password. Please try again.
+      </div>
+
+      <form id="loginForm" novalidate autocomplete="off">
+
+        <!-- Username -->
+        <div class="field-group">
+          <label class="field-label" for="loginUsername">
+            Username <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <div class="input-wrap">
+            <input type="text" id="loginUsername" class="field-input"
+              placeholder="Enter username"
+              autocomplete="off"
+              aria-required="true" aria-describedby="loginUsernameError" />
+          </div>
+          <span class="field-error" id="loginUsernameError" role="alert"></span>
+        </div>
+
+        <!-- Password -->
+        <div class="field-group">
+          <label class="field-label" for="loginPassword">
+            Password <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <div class="input-wrap login-pw-wrap">
+            <input type="password" id="loginPassword" class="field-input"
+              placeholder="Enter password"
+              autocomplete="off"
+              aria-required="true" aria-describedby="loginPasswordError" />
+            <button type="button" class="pw-toggle btn-icon" id="pwToggle" aria-label="Show password" tabindex="0">
+              <svg id="pwEyeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-error" id="loginPasswordError" role="alert"></span>
+        </div>
+
+        <div class="form-actions" style="margin-top:24px;">
+          <button type="submit" class="btn-submit" id="loginSubmitBtn">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+              <polyline points="10 17 15 12 10 7"/>
+              <line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+            Login
+          </button>
+          <button type="button" class="btn-back" id="loginCancelBtn">
+            Cancel
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ── POST JOB MODAL ── -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card" id="modalCard">
+
+      <!-- Modal header -->
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title" id="modalTitle">Post a New Job</h2>
+          <p class="modal-sub">Fill in the details below to publish a listing</p>
+        </div>
+        <button class="modal-close btn-icon" id="modalClose" aria-label="Close modal">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6"  y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- API error banner (hidden by default) -->
+      <div class="modal-api-error" id="modalApiError" role="alert" style="display:none;">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        Failed to post job. Please try again.
+      </div>
+
+      <!-- Post job form -->
+      <form id="postJobForm" novalidate autocomplete="off">
+
+        <!-- Job Title -->
+        <div class="field-group">
+          <label class="field-label" for="pjTitle">
+            Job Title <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <div class="input-wrap">
+            <input type="text" id="pjTitle" class="field-input"
+              placeholder="e.g. Senior Java Developer"
+              aria-required="true" aria-describedby="pjTitleError" />
+          </div>
+          <span class="field-error" id="pjTitleError" role="alert"></span>
+        </div>
+
+        <!-- Job Description -->
+        <div class="field-group">
+          <label class="field-label" for="pjDesc">
+            Job Description <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <div class="input-wrap" style="align-items:flex-start;">
+            <textarea id="pjDesc" class="field-input field-textarea"
+              placeholder="Describe the role, responsibilities, and requirements (min 20 characters)…"
+              rows="4"
+              aria-required="true" aria-describedby="pjDescError"></textarea>
+          </div>
+          <span class="field-error" id="pjDescError" role="alert"></span>
+        </div>
+
+        <!-- Skills + Experience row -->
+        <div class="field-row">
+          <!-- Skills -->
+          <div class="field-group">
+            <label class="field-label" for="pjSkills">
+              Skills Required <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap">
+              <input type="text" id="pjSkills" class="field-input"
+                placeholder="e.g. Java, Spring Boot, MongoDB"
+                aria-required="true" aria-describedby="pjSkillsError" />
+            </div>
+            <span class="field-error" id="pjSkillsError" role="alert"></span>
+          </div>
+
+          <!-- Experience -->
+          <div class="field-group">
+            <label class="field-label" for="pjExp">
+              Experience Required <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap">
+              <input type="text" id="pjExp" class="field-input"
+                placeholder="e.g. 2 Years"
+                aria-required="true" aria-describedby="pjExpError" />
+            </div>
+            <span class="field-error" id="pjExpError" role="alert"></span>
+          </div>
+        </div>
+
+        <!-- Location + Job Type row -->
+        <div class="field-row">
+          <!-- Location -->
+          <div class="field-group">
+            <label class="field-label" for="pjLocation">
+              Location <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap">
+              <input type="text" id="pjLocation" class="field-input"
+                placeholder="e.g. Bangalore"
+                aria-required="true" aria-describedby="pjLocationError" />
+            </div>
+            <span class="field-error" id="pjLocationError" role="alert"></span>
+          </div>
+
+          <!-- Job Type -->
+          <div class="field-group">
+            <label class="field-label" for="pjType">
+              Job Type <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap select-wrap">
+              <select id="pjType" class="field-select"
+                aria-required="true" aria-describedby="pjTypeError">
+                <option value="select">Select Job Type</option>
+                <option value="Full-Time">Full-Time</option>
+                <option value="Part-Time">Part-Time</option>
+                <option value="Remote">Remote</option>
+                <option value="Internship">Internship</option>
+                <option value="Contract">Contract</option>
+              </select>
+            </div>
+            <span class="field-error" id="pjTypeError" role="alert"></span>
+          </div>
+        </div>
+
+        <!-- Salary Range -->
+        <div class="field-group">
+          <label class="field-label" for="pjSalary">
+            Salary Range <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <div class="input-wrap">
+            <input type="text" id="pjSalary" class="field-input"
+              placeholder="e.g. 8–12 LPA"
+              aria-required="true" aria-describedby="pjSalaryError" />
+          </div>
+          <span class="field-error" id="pjSalaryError" role="alert"></span>
+        </div>
+
+        <!-- Modal actions -->
+        <div class="form-actions" style="margin-top:24px;">
+          <button type="submit" class="btn-submit" id="postJobSubmitBtn">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5"  y1="12" x2="19" y2="12"/>
+            </svg>
+            Post Job
+          </button>
+          <button type="button" class="btn-back" id="modalCancelBtn">
+            Cancel
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ── TOAST NOTIFICATION ── -->
+  <div class="toast" id="toast" role="status" aria-live="polite" style="display:none;">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" aria-hidden="true">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+    Job posted successfully!
+  </div>
 
   <script src="/script.js" defer></script>
 </body>

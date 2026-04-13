@@ -1,10 +1,10 @@
 /* =====================================================
-   HireBridge - apply.js
+   HireBridge — apply.js
    Handles: theme, mobile menu, URL params,
             inline validation, file upload, submit
    ===================================================== */
 
-// ── THEME (identical to script.js) ─────────────────────
+// ── THEME ──────────────────────────────────────────────
 const html        = document.documentElement;
 const themeToggle = document.getElementById('themeToggle');
 const themeIcon   = document.getElementById('themeIcon');
@@ -38,19 +38,51 @@ const params   = new URLSearchParams(window.location.search);
 const jobTitle = params.get('title') ? decodeURIComponent(params.get('title')) : 'this position';
 
 document.getElementById('applyRoleLabel').textContent = 'Applying for: ' + jobTitle;
-document.getElementById('pageTitleJob').textContent   = jobTitle;
+// FIX: the <title> element id is "pageTitleTag", not "pageTitleJob"
+document.getElementById('pageTitleTag').textContent = 'Apply: ' + jobTitle + ' — HireBridge';
 
 // ── VALIDATION RULES ────────────────────────────────────
 const RULES = {
-  firstName:   { test: v => /^[A-Za-z]+$/.test(v.trim()),          msg: 'Only alphabetic characters are allowed' },
-  lastName:    { test: v => /^[A-Za-z]+$/.test(v.trim()),          msg: 'Only alphabetic characters are allowed' },
-  contact:     { test: v => /^\d{10}$/.test(v.trim()),             msg: 'Please enter a valid 10-digit phone number' },
-  email:       { test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()), msg: 'Please enter a valid email address' },
-  education:   { test: v => v !== '' && v !== 'select',            msg: 'Please select your education level' },
-  major:       { test: v => /^[A-Za-z\s]+$/.test(v.trim()),       msg: 'Only alphabetic characters are allowed' },
-  currentCtc:  { test: v => v.trim() !== '' && !isNaN(v) && Number(v) >= 0, msg: 'Please enter a valid number' },
-  expectedCtc: { test: v => v.trim() !== '' && !isNaN(v) && Number(v) >= 0, msg: 'Please enter a valid number' },
-  resume:      { test: () => true, msg: 'Please upload a PDF, DOC, or DOCX file' }, // handled separately
+  firstName:   {
+    empty: 'This field is required',
+    test:  v => /^[A-Za-z]+$/.test(v.trim()),
+    msg:   'Only alphabetic characters are allowed'
+  },
+  lastName:    {
+    empty: 'This field is required',
+    test:  v => /^[A-Za-z]+$/.test(v.trim()),
+    msg:   'Only alphabetic characters are allowed'
+  },
+  contact:     {
+    empty: 'This field is required',
+    test:  v => /^\d{10}$/.test(v.trim()),
+    msg:   'Please enter a valid 10-digit phone number'
+  },
+  email:       {
+    empty: 'This field is required',
+    test:  v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+    msg:   'Please enter a valid email address'
+  },
+  education:   {
+    empty: 'Please select your education level',
+    test:  v => v !== '' && v !== 'select',
+    msg:   'Please select your education level'
+  },
+  major:       {
+    empty: 'This field is required',
+    test:  v => /^[A-Za-z\s]+$/.test(v.trim()),
+    msg:   'Only alphabetic characters and spaces are allowed'
+  },
+  currentCtc:  {
+    empty: 'This field is required',
+    test:  v => v.trim() !== '' && !isNaN(v) && Number(v) >= 0,
+    msg:   'Please enter a valid number'
+  },
+  expectedCtc: {
+    empty: 'This field is required',
+    test:  v => v.trim() !== '' && !isNaN(v) && Number(v) >= 0,
+    msg:   'Please enter a valid number'
+  },
 };
 
 // ── ICON SVGs ───────────────────────────────────────────
@@ -59,19 +91,20 @@ const CROSS_SVG = `<svg class="field-icon invalid" fill="none" stroke="currentCo
 
 // ── FIELD VALIDATION HELPER ─────────────────────────────
 function validateField(fieldId) {
-  const input   = document.getElementById(fieldId);
-  const rule    = RULES[fieldId];
-  const wrap    = input.closest('.input-wrap') || input.parentElement;
-  const errEl   = document.getElementById(fieldId + 'Error');
+  const input  = document.getElementById(fieldId);
+  const rule   = RULES[fieldId];
+  const wrap   = input.closest('.input-wrap') || input.parentElement;
+  const errEl  = document.getElementById(fieldId + 'Error');
 
-  // Remove old icon
+  // Remove existing icon
   const oldIcon = wrap.querySelector('.field-icon');
   if (oldIcon) oldIcon.remove();
 
-  const isEmpty = input.value.trim() === '' || (input.tagName === 'SELECT' && (input.value === '' || input.value === 'select'));
+  const isEmpty = input.value.trim() === '' ||
+    (input.tagName === 'SELECT' && (input.value === '' || input.value === 'select'));
 
   if (isEmpty) {
-    setInvalid(input, wrap, errEl, rule.msg);
+    setInvalid(input, wrap, errEl, rule.empty);
     return false;
   }
 
@@ -100,23 +133,23 @@ function setInvalid(input, wrap, errEl, msg) {
 }
 
 // ── RESUME VALIDATION ───────────────────────────────────
-const resumeInput  = document.getElementById('resume');
-const fileLabel    = document.getElementById('fileLabel');
-const fileText     = document.getElementById('fileText');
-const resumeError  = document.getElementById('resumeError');
-let resumeValid    = false;
+const resumeInput = document.getElementById('resume');
+const fileLabel   = document.getElementById('fileLabel');
+const fileText    = document.getElementById('fileText');
+const resumeError = document.getElementById('resumeError');
+let resumeValid   = false;
 
 resumeInput.addEventListener('change', () => {
   const file = resumeInput.files[0];
-  if (!file) { markResumeInvalid('Please upload a PDF, DOC, or DOCX file'); return; }
-
-  const ext = file.name.split('.').pop().toLowerCase();
-  if (!['pdf', 'doc', 'docx'].includes(ext)) {
-    markResumeInvalid('Please upload a PDF, DOC, or DOCX file');
+  if (!file) {
+    markResumeInvalid('Please upload your resume (PDF, DOC, or DOCX)');
     return;
   }
-
-  // valid
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (!['pdf', 'doc', 'docx'].includes(ext)) {
+    markResumeInvalid('Only PDF, DOC, or DOCX files are accepted');
+    return;
+  }
   resumeValid = true;
   fileText.textContent = file.name;
   fileText.classList.add('selected');
@@ -127,7 +160,7 @@ resumeInput.addEventListener('change', () => {
 
 function markResumeInvalid(msg) {
   resumeValid = false;
-  fileText.textContent = 'Choose file...';
+  fileText.textContent = 'Choose file…';
   fileText.classList.remove('selected');
   fileLabel.classList.remove('is-valid');
   fileLabel.classList.add('is-invalid');
@@ -135,20 +168,24 @@ function markResumeInvalid(msg) {
   resumeError.classList.add('visible');
 }
 
-// ── ATTACH BLUR LISTENERS ───────────────────────────────
+// ── ATTACH BLUR + INPUT LISTENERS ──────────────────────
 ['firstName', 'lastName', 'contact', 'email', 'education', 'major', 'currentCtc', 'expectedCtc'].forEach(id => {
   const el = document.getElementById(id);
-  el.addEventListener('blur',  () => validateField(id));
+  // validate immediately when user leaves a field
+  el.addEventListener('blur', () => validateField(id));
+  // clear error state while user is actively typing/changing
   el.addEventListener('input', () => {
-    // Clear error state as user types
-    if (el.classList.contains('is-invalid')) {
-      el.classList.remove('is-invalid');
-      el.classList.remove('is-valid');
-      const wrap  = el.closest('.input-wrap') || el.parentElement;
-      const icon  = wrap.querySelector('.field-icon');
+    if (el.classList.contains('is-invalid') || el.classList.contains('is-valid')) {
+      el.classList.remove('is-invalid', 'is-valid');
+      const wrap = el.closest('.input-wrap') || el.parentElement;
+      const icon = wrap.querySelector('.field-icon');
       if (icon) icon.remove();
       document.getElementById(id + 'Error').classList.remove('visible');
     }
+  });
+  // also clear on change (handles <select>)
+  el.addEventListener('change', () => {
+    if (el.tagName === 'SELECT') validateField(id);
   });
 });
 
@@ -160,23 +197,25 @@ const successBanner = document.getElementById('successBanner');
 form.addEventListener('submit', e => {
   e.preventDefault();
 
+  // Validate all text/select fields — run ALL even if one fails so all errors show
   const fieldIds = ['firstName', 'lastName', 'contact', 'email', 'education', 'major', 'currentCtc', 'expectedCtc'];
-  let allValid = fieldIds.every(id => validateField(id));
+  const results  = fieldIds.map(id => validateField(id));
+  let allValid   = results.every(Boolean);
 
   // Resume check
   if (!resumeValid) {
-    markResumeInvalid('Please upload a PDF, DOC, or DOCX file');
+    markResumeInvalid('Please upload your resume (PDF, DOC, or DOCX)');
     allValid = false;
   }
 
   if (!allValid) {
-    // Scroll to first error
-    const firstInvalid = form.querySelector('.is-invalid');
+    // Scroll to the first invalid field
+    const firstInvalid = form.querySelector('.is-invalid, .file-upload-label.is-invalid');
     if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
 
-  // Success
+  // All valid → show success and redirect
   submitBtn.disabled = true;
   successBanner.classList.add('visible');
   successBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });

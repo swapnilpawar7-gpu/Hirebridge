@@ -698,7 +698,7 @@ footer a { color: var(--indigo); text-decoration: none; }
 
 
 /* =====================================================
-   apply.html - Form Page Styles
+   apply.html — Form Page Styles
    All tokens reuse the existing design system above
    ===================================================== */
 
@@ -1036,3 +1036,283 @@ footer a { color: var(--indigo); text-decoration: none; }
 
 .success-banner.visible { display: flex; }
 .success-banner svg { width: 18px; height: 18px; stroke: currentColor; flex-shrink: 0; }
+
+
+/* =====================================================
+   Modal + Toast styles
+   ===================================================== */
+
+/* ── MODAL BACKDROP ── */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.modal-backdrop.modal-open {
+  display: flex;
+  animation: backdropIn 0.2s ease;
+}
+
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── MODAL CARD ── */
+.modal-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%;
+  max-width: 580px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  box-shadow: var(--shadow-hover);
+  animation: modalIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)     scale(1);    }
+}
+
+/* ── MODAL HEADER ── */
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.modal-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.modal-close {
+  flex-shrink: 0;
+  margin-top: -2px;
+}
+
+/* ── TEXTAREA ── */
+.field-textarea {
+  resize: vertical;
+  min-height: 96px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 1.6;
+}
+
+/* ── API ERROR BANNER ── */
+.modal-api-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fef2f2;
+  border: 1.5px solid #fecaca;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #dc2626;
+}
+
+[data-theme="dark"] .modal-api-error {
+  background: #450a0a;
+  border-color: #7f1d1d;
+  color: #fca5a5;
+}
+
+.modal-api-error svg {
+  width: 16px; height: 16px;
+  stroke: currentColor;
+  flex-shrink: 0;
+}
+
+/* ── TOAST NOTIFICATION ── */
+.toast {
+  position: fixed;
+  top: 80px;
+  right: 24px;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #052e16;
+  border: 1.5px solid #166534;
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4ade80;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateX(16px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+
+[data-theme="light"] .toast {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #15803d;
+}
+
+.toast svg {
+  width: 16px; height: 16px;
+  stroke: currentColor;
+  flex-shrink: 0;
+}
+
+.toast.toast-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 480px) {
+  .modal-card { padding: 20px 16px; }
+  .toast { right: 12px; left: 12px; }
+}
+
+
+/* =====================================================
+   Login modal + Admin badge styles
+   ===================================================== */
+
+/* ── LOGIN MODAL CARD (narrower than post job modal) ── */
+.login-modal-card {
+  max-width: 420px;
+}
+
+/* ── LOGIN ERROR BANNER ── */
+.login-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fef2f2;
+  border: 1.5px solid #fecaca;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #dc2626;
+}
+
+[data-theme="dark"] .login-error {
+  background: #450a0a;
+  border-color: #7f1d1d;
+  color: #fca5a5;
+}
+
+.login-error svg {
+  width: 16px; height: 16px;
+  stroke: currentColor;
+  flex-shrink: 0;
+}
+
+/* ── PASSWORD TOGGLE BUTTON INSIDE INPUT ── */
+.login-pw-wrap {
+  position: relative;
+}
+
+.pw-toggle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px; height: 32px;
+  border-radius: 7px;
+  flex-shrink: 0;
+  /* override btn-icon sizing slightly so it sits flush */
+  border: none;
+  background: transparent;
+}
+
+.pw-toggle:hover {
+  background: var(--surface-hover);
+}
+
+.pw-toggle svg {
+  width: 16px; height: 16px;
+  stroke: var(--text-muted);
+}
+
+/* ── ADMIN BADGE IN NAVBAR ── */
+.nav-admin-badge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--indigo-light);
+  border: 1px solid var(--indigo-mid);
+  border-radius: 9999px;
+  padding: 5px 12px 5px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--indigo);
+  white-space: nowrap;
+}
+
+[data-theme="dark"] .nav-admin-badge {
+  background: var(--badge-bg);
+  border-color: #6366f1;
+  color: var(--badge-text);
+}
+
+.admin-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+}
+
+.admin-name {
+  font-size: 13px;
+}
+
+.admin-logout {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: var(--transition);
+  margin-left: 2px;
+}
+
+.admin-logout:hover {
+  color: #ef4444;
+  background: #fef2f2;
+}
+
+[data-theme="dark"] .admin-logout:hover {
+  background: #450a0a;
+  color: #fca5a5;
+}
+
+@media (max-width: 768px) {
+  .nav-admin-badge { display: none; }
+}

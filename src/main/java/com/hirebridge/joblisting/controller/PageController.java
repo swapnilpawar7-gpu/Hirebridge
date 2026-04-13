@@ -11,4 +11,8 @@ public class PageController {
         return "index";
     }
 
+    @GetMapping("/apply")
+    public String apply() {
+        return "apply";
+    }
 }
